@@ -11,8 +11,8 @@ module Jasmine::Headless
 
     module ErbHelpers
       # Stub out the asset_path helper
-      def asset_path(str)
-        "/assets/#{str}"
+      def self.asset_path(path)
+        "/assets/#{path}"
       end
     end
 
