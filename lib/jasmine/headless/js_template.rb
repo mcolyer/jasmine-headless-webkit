@@ -15,7 +15,7 @@ module Jasmine::Headless
       if data[%r{^<script type="text/javascript"}]
         data
       else
-        file ? %{<script type="text/javascript" src="#{file}"></script>} : data
+        %{<script type="text/javascript">#{data}</script>}
       end
     end
   end
