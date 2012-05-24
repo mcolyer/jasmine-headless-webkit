@@ -3,7 +3,7 @@ require 'pathname'
 module Jasmine
   module Headless
     
-    EXCLUDED_FORMATS = %w{less sass scss erb str}
+    EXCLUDED_FORMATS = %w{less sass scss str}
     
     autoload :CommandLine, 'jasmine/headless/command_line'
 
@@ -23,6 +23,7 @@ module Jasmine
     autoload :FileChecker, 'jasmine/headless/file_checker'
 
     autoload :CoffeeTemplate, 'jasmine/headless/coffee_template'
+    autoload :ERBTemplate, 'jasmine/headless/erb_template'
     autoload :JSTemplate, 'jasmine/headless/js_template'
     autoload :JSTTemplate, 'jasmine/headless/jst_template'
     autoload :CSSTemplate, 'jasmine/headless/css_template'
