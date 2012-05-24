@@ -15,7 +15,7 @@ module Jasmine::Headless
         return ''
       end
       begin
-        cache = Jasmine::Headless::CoffeeScriptCache.new(file)
+        cache = Jasmine::Headless::CoffeeScriptCache.new(file, data)
         source = cache.handle
         if cache.cached?
           %{<script type="text/javascript" src="#{cache.cache_file}"></script>

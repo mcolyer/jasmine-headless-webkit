@@ -11,8 +11,13 @@ module Jasmine
         end
       end
 
+      def initialize(file, data)
+        @file = file
+        @data = data
+      end
+
       def action
-        CoffeeScript.compile(File.read(file))
+        CoffeeScript.compile(@data)
       end
     end
   end
