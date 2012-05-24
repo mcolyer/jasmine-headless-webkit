@@ -7,15 +7,35 @@ module Jasmine::Headless
 
     def prepare ; end
 
+    class JSCacheable < CacheableAction
+      class << self
+        def cache_type
+          "javascript"
+        end
+      end
+
+      def initialize(file, data)
+        @file = file
+        @data = data
+      end
+
+      def action
+        @data
+      end
+    end
+
     def evaluate(scope, locals, &block)
       if bad_format?(file)
         alert_bad_format(file)
         return ''
       end
-      if data[%r{^<script type="text/javascript"}]
-        data
+      cache = JSCacheable.new(file, data)
+      source = cache.handle
+      if cache.cached?
+        %{<script type="text/javascript" src="#{cache.cache_file}"></script>
+          <script type="text/javascript">window.CSTF['#{File.split(cache.cache_file).last}'] = '#{file}';</script>}
       else
-        file ? %{<script type="text/javascript" src="#{file}"></script>} : data
+        %{<script type="text/javascript">#{source}</script>}
       end
     end
   end
