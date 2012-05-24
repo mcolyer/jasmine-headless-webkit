@@ -29,13 +29,17 @@ module Jasmine::Headless
         alert_bad_format(file)
         return ''
       end
-      cache = JSCacheable.new(file, data)
-      source = cache.handle
-      if cache.cached?
-        %{<script type="text/javascript" src="#{cache.cache_file}"></script>
-          <script type="text/javascript">window.CSTF['#{File.split(cache.cache_file).last}'] = '#{file}';</script>}
+      if data[%r{^<script type="text/javascript"}]
+        data
       else
-        %{<script type="text/javascript">#{source}</script>}
+        cache = JSCacheable.new(file, data)
+        source = cache.handle
+        if cache.cached?
+          %{<script type="text/javascript" src="#{cache.cache_file}"></script>
+            <script type="text/javascript">window.CSTF['#{File.split(cache.cache_file).last}'] = '#{file}';</script>}
+        else
+          %{<script type="text/javascript">#{source}</script>}
+        end
       end
     end
   end
