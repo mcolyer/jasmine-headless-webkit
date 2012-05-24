@@ -15,7 +15,7 @@ module Jasmine::Headless
         return ''
       end
       begin
-        ERB.new(File.read(file)).result
+        ERB.new(File.read(file)).result(binding)
       rescue StandardError => e
         puts "[%s] Error in compiling file: %s" % [ 'erb'.color(:red), file.color(:yellow) ]
         raise e
