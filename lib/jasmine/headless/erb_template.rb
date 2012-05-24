@@ -9,22 +9,24 @@ module Jasmine::Headless
 
     def prepare ; end
 
+    module ErbHelpers
+      # Stub out the asset_path helper
+      def asset_path(str)
+        "/assets/#{str}"
+      end
+    end
+
     def evaluate(scope, locals, &block)
       if bad_format?(file)
         alert_bad_format(file)
         return ''
       end
       begin
-        ERB.new(File.read(file)).result(binding)
+        ERB.new(File.read(file)).result(ErbHelpers.instance_eval { binding })
       rescue StandardError => e
         puts "[%s] Error in compiling file: %s" % [ 'erb'.color(:red), file.color(:yellow) ]
         raise e
       end
-    end
-
-    # Stub out the asset_path helper
-    def asset_path(str)
-      "/assets/#{str}"
     end
   end
 end
